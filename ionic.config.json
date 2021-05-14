@@ -1,0 +1,7 @@
+{
+  "name": "Proyectoweb",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react"
+}
