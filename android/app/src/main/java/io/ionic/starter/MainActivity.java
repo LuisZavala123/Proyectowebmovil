@@ -12,10 +12,11 @@ public class MainActivity extends BridgeActivity {
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    // Initializes the Bridge
-    this.init(savedInstanceState, new ArrayList<Class<? extends Plugin>>() {{
-      // Additional plugins you've installed go here
-      // Ex: add(TotallyAwesomePlugin.class);
-    }});
+    registerPlugin(com.capacitorjs.plugins.storage.StoragePlugin.class);
+    registerPlugin(com.capacitorjs.plugins.actionsheet.ActionSheetPlugin.class);
+    registerPlugin(com.capacitorjs.plugins.dialog.DialogPlugin.class);
+    registerPlugin(com.capacitorjs.plugins.haptics.HapticsPlugin.class);
+    registerPlugin(com.capacitorjs.plugins.screenreader.ScreenReaderPlugin.class);
+    registerPlugin(com.capacitorjs.plugins.toast.ToastPlugin.class);
   }
 }
