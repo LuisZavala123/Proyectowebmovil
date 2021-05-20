@@ -10,7 +10,6 @@ import {
     IonButton,
     IonItem,
     IonIcon,
-    IonToast,
     IonItemDivider,
     IonLabel,
     IonList,
@@ -19,6 +18,7 @@ import {
     IonRadioGroup
 } from '@ionic/react';
 import { addOutline } from 'ionicons/icons';
+
 
 import './Tab1.css';
 import 'firebase/firebase-firestore';
@@ -34,8 +34,6 @@ const Tab1: React.FC = () => {
         crear,
          telefono,
          setTelefono,
-         showToast1,
-         setShowToast1,
          nombre,
          setNombre,
          tipo,
@@ -52,7 +50,7 @@ const Tab1: React.FC = () => {
                 </IonToolbar>
             </IonHeader>
             <IonContent>
-
+                
                 <IonHeader collapse="condense">
                     <IonToolbar>
                         <IonTitle size="large">Equipo</IonTitle>
@@ -95,12 +93,7 @@ const Tab1: React.FC = () => {
                         <IonIcon icon={addOutline}>
                         </IonIcon>{bandera?'Contacto':'Editar'}</IonButton>
                 </IonCard>
-                <IonToast
-        isOpen={showToast1}
-        onDidDismiss={() => setShowToast1(false)}
-        message="contacto agregado"
-        duration={2000}
-      />
+                
             </IonContent>
         </IonPage>
     );

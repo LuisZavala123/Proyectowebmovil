@@ -3,13 +3,12 @@ import firebase from 'firebase/app';
 import 'firebase/firebase-firestore';
 import {contacto} from '../modelo/contacto'
 import { Dialog } from '@capacitor/dialog';
+import { Toast } from '@capacitor/toast';
+import { Haptics } from '@capacitor/haptics';
 
 
 
 export function useLista(){
-    const [showToast1, setShowToast1] = useState(false);
-    const [showToast2, setShowToast2] = useState(false);
-    const [showToast3, setShowToast3] = useState(false);
     const [lista, setLista] = useState < contacto[] > ([]); 
     const [id, setId] = useState('');
     const [nombre, setNombre] = useState('');
@@ -45,7 +44,7 @@ export function useLista(){
                     {nombre, telefono,tipo});
                     setBandera(true);
             }
-            setShowToast1(true)
+            
         } catch (error) {}
         setId('');
         setNombre('');
@@ -54,13 +53,15 @@ export function useLista(){
         listar();  
     }
     const showeliminar = async (id:string) => {
+        hapticsVibrate();
         const { value } = await Dialog.confirm({
           title: 'Eliminar',
-          message: `¿decea eliminar el contacto?`,
+          message: `¿desea eliminar el contacto?`,
         });
       
         if(value){
             eliminar(id);
+            showEliminartoast();
         }
       };
 
@@ -70,7 +71,7 @@ export function useLista(){
                 console.log(id)
                 await firebase.firestore().collection('contacto').doc(id).delete();
                 listar();
-                setShowToast2(true)  
+                showagregartoast(); 
             } catch (error) {} 
        
     }
@@ -80,9 +81,29 @@ export function useLista(){
       setNombre(nombre);
       setTelefono(telefono);
       setTipo(tipo);
-      setShowToast3(true)
       setBandera(false);
+      showeditartoast();
   } 
+
+  const showEliminartoast = async () => {
+    await Toast.show({
+      text: 'Se ha eliminado el contacto',
+    });
+  };
+  const showagregartoast = async () => {
+    await Toast.show({
+      text: 'se ha agregado el contacto',
+    });
+  };
+  const showeditartoast = async () => {
+    await Toast.show({
+      text: 'sea editado el contacto',
+    });
+  };
+
+  const hapticsVibrate = async () => {
+    await Haptics.vibrate();
+  };
 
   return {
     listar, 
@@ -96,12 +117,6 @@ export function useLista(){
     setNombre,
     tipo,
     setTipo,
-    showToast1,
-    setShowToast1,
-    showToast2,
-    setShowToast2,
-    showToast3,
-    setShowToast3,
     bandera
 
   };

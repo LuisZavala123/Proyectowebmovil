@@ -12,13 +12,26 @@ import {
   IonButton,
   IonIcon,
   useIonViewWillEnter,
-  IonToast,
+  IonRefresher,
+  IonRefresherContent
 } from '@ionic/react';
+
+import { RefresherEventDetail } from '@ionic/core';
 
 import {trashBinOutline, pencil } from 'ionicons/icons';
 import './Tab2.css';
 import { useLista} from '../hooks/useLista';
 import React from 'react';
+
+function doRefresh(event: CustomEvent<RefresherEventDetail>) {
+  console.log('Begin async operation');
+
+  setTimeout(() => {
+    console.log('Async operation has ended');
+    event.detail.complete();
+    window.location.reload();
+  }, 2000);
+}
 
 const Tab2: React.FC = () => {
 
@@ -27,10 +40,6 @@ const Tab2: React.FC = () => {
   const {showeliminar,
      editar,
      listar,
-     showToast2,
-     setShowToast2,
-     showToast3,
-     setShowToast3,
      lista} = useLista();
 
      useIonViewWillEnter(() => {
@@ -45,7 +54,11 @@ const Tab2: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent fullscreen>
-        
+      
+                    <IonRefresher slot="fixed" onIonRefresh={doRefresh}>
+                         <IonRefresherContent></IonRefresherContent>
+                    </IonRefresher>
+                
       <IonList> {
                     lista.map(contacto => (
                         <IonCard key={contacto.id} >
@@ -73,18 +86,7 @@ const Tab2: React.FC = () => {
                         </IonCard>
                     )) }
                  </IonList>
-                 <IonToast
-        isOpen={showToast2}
-        onDidDismiss={() => setShowToast2(false)}
-        message="Contacto eliminado"
-        duration={2000}
-      />
-       <IonToast
-        isOpen={showToast3}
-        onDidDismiss={() => setShowToast3(false)}
-        message="C0ntacto editado"
-        duration={2000}
-      />
+                 
       </IonContent>
     </IonPage>
   );
