@@ -24,7 +24,7 @@ const Tab2: React.FC = () => {
 
   
 
-  const {eliminar,
+  const {showeliminar,
      editar,
      listar,
      showToast2,
@@ -58,7 +58,7 @@ const Tab2: React.FC = () => {
                                 Telefono: {contacto.telefono}
                                 Tipo: {contacto.tipo} 
                                 <IonButton color="danger" expand="block"
-                               onClick={() => eliminar(''+contacto.id)}>
+                               onClick={() => showeliminar(''+contacto.id)}>
                              <IonIcon icon={trashBinOutline}></IonIcon>
                                Eliminar</IonButton>  
                         <IonButton color="tertiary" expand="block"

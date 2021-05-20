@@ -61,7 +61,7 @@ const Tab1: React.FC = () => {
                 <IonCard>
                     <IonItem>
                         <IonInput value={nombre}
-                            placeholder="NOmbre"
+                            placeholder="Nombre"
                             onIonChange={ e => setNombre(e.detail.value!) }
                         ></IonInput>
                     </IonItem>
@@ -74,7 +74,7 @@ const Tab1: React.FC = () => {
                     <IonList>
           <IonRadioGroup value={tipo} onIonChange={e => setTipo(e.detail.value)}>
             <IonListHeader>
-              <IonLabel>Name</IonLabel>
+              <IonLabel>Tipo</IonLabel>
             </IonListHeader>
 
             <IonItem>

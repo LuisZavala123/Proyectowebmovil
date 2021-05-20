@@ -2,6 +2,7 @@ import {useState} from 'react';
 import firebase from 'firebase/app';
 import 'firebase/firebase-firestore';
 import {contacto} from '../modelo/contacto'
+import { Dialog } from '@capacitor/dialog';
 
 
 
@@ -52,15 +53,26 @@ export function useLista(){
         setTipo('');
         listar();  
     }
-
+    const showeliminar = async (id:string) => {
+        const { value } = await Dialog.confirm({
+          title: 'Eliminar',
+          message: `¿decea eliminar el contacto?`,
+        });
+      
+        if(value){
+            eliminar(id);
+        }
+      };
 
     const eliminar = async(id:string) =>{
-        try {
-            console.log(id)
-            await firebase.firestore().collection('contacto').doc(id).delete();
-            listar();
-            setShowToast2(true)  
-        } catch (error) {}       
+          
+            try {
+                console.log(id)
+                await firebase.firestore().collection('contacto').doc(id).delete();
+                listar();
+                setShowToast2(true)  
+            } catch (error) {} 
+       
     }
 
     const editar = (id:string,nombre:string,telefono:string,tipo:string) => {
@@ -75,7 +87,7 @@ export function useLista(){
   return {
     listar, 
     crear,
-    eliminar,
+    showeliminar,
     editar,
     lista,
     telefono,
