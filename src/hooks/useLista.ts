@@ -6,6 +6,7 @@ import { Dialog } from '@capacitor/dialog';
 import { Toast } from '@capacitor/toast';
 import { Haptics } from '@capacitor/haptics';
 import { ActionSheet} from '@capacitor/action-sheet';
+import { Keyboard } from '@capacitor/keyboard';
 
 
 
@@ -134,6 +135,13 @@ const showActions = async (id:string,nombre:string,telefono:string,tipo:string) 
     await Haptics.vibrate();
   };
 
+  Keyboard.addListener('keyboardDidHide', () => {
+    hapticsVibrate();
+  });
+
+  Keyboard.addListener('keyboardWillShow', info => {
+    hapticsVibrate();
+  });
   return {
     listar, 
     crear,
