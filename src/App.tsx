@@ -40,6 +40,7 @@ if (!firebase.apps.length) {
 }
 
 const App: React.FC = () => (
+  
   <IonApp>
     <IonReactRouter>
       <IonTabs>

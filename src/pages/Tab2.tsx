@@ -37,9 +37,11 @@ const Tab2: React.FC = () => {
 
   
 
-  const {showActions,
-     listar,
-     lista} = useLista();
+  const {
+    showActions,
+    listar,
+    lista} = useLista();
+
 
      useIonViewWillEnter(() => {
       listar();

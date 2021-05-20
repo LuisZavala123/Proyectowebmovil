@@ -28,9 +28,9 @@ import { useLista} from '../hooks/useLista';
 
 
 const Tab1: React.FC = () => {
-
     
-    const { 
+    
+    const {
         crear,
          telefono,
          setTelefono,
@@ -88,7 +88,7 @@ const Tab1: React.FC = () => {
           <IonItemDivider>Seleccion</IonItemDivider>
           <IonItem>{tipo ?? '(none selected'}</IonItem>
         </IonList>
-                <IonButton color="success" expand="block"
+                <IonButton id="btncrear" color="success" expand="block"
                     onClick={() => crear() }>
                         <IonIcon icon={addOutline}>
                         </IonIcon>{bandera?'Contacto':'Editar'}</IonButton>

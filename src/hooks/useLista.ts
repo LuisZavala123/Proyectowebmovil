@@ -1,12 +1,12 @@
 import {useState} from 'react';
-import firebase from 'firebase/app';
 import 'firebase/firebase-firestore';
 import {contacto} from '../modelo/contacto'
 import { Dialog } from '@capacitor/dialog';
 import { Toast } from '@capacitor/toast';
 import { Haptics } from '@capacitor/haptics';
 import { ActionSheet} from '@capacitor/action-sheet';
-import { Keyboard } from '@capacitor/keyboard';
+import { ScreenReader } from '@capacitor/screen-reader';
+import { Storage } from '@capacitor/storage';
 
 
 
@@ -17,33 +17,60 @@ export function useLista(){
     const [telefono, setTelefono] = useState('');
     const [tipo, setTipo] = useState('');
     const [bandera, setBandera] = useState(true);
+    
+
+    
+
     const listar = async () => {
         try {
             let lista: contacto[] = []
-            const res = await firebase.firestore().collection('contacto').get();
-            res.forEach((doc) => {
-                let obj = {
-                    id: doc.id,
-                    nombre: doc.data().nombre,
-                    telefono: doc.data().telefono,
-                    tipo: doc.data().tipo
-                };
-                lista.push(obj)
-    
-            });
+            let con=0;
+            const { value } = await Storage.get({ key: con+'' });
+            let valuejs = JSON.parse(value+"");
+            while(valuejs!=null)
+            {
+              console.log(''+con)
+              let obj={
+                  id:con+"",
+                  nombre:valuejs.nombre+"",
+                  telefono:valuejs.telefono+"",
+                  tipo:valuejs.tipo+""
+              };
+              con++;
+              let { value } = await Storage.get({ key: con+'' });
+              valuejs = JSON.parse(value+"");
+              lista.push(obj);
+            }
+            
             setLista(lista)
-        } catch (error) {}
+        } catch (error) {
+          console.log(error);
+        }
     }
 
     const crear = async () => {
         try {
             if(bandera){
-                await firebase.firestore().collection('contacto').add(
-                    {nombre, telefono,tipo});
-                   
+              let con = lista.length;
+              await Storage.set({
+                key: con+"",
+                value: JSON.stringify({
+                  "nombre":nombre,
+                  "telefono":telefono,
+                  "tipo":tipo
+                }),
+              });
+              showagregartoast();
             }else{
-                await firebase.firestore().collection('contacto').doc(id).set(
-                    {nombre, telefono,tipo});
+              eliminar(id);
+              await Storage.set({
+                key: id,
+                value: JSON.stringify({
+                  "nombre":nombre,
+                  "telefono":telefono,
+                  "tipo":tipo
+                }),
+              });
                     setBandera(true);
             }
             
@@ -71,9 +98,9 @@ export function useLista(){
           
             try {
                 console.log(id)
-                await firebase.firestore().collection('contacto').doc(id).delete();
+                await Storage.remove({ key: id });
                 listar();
-                showagregartoast(); 
+                showEliminartoast(); 
             } catch (error) {} 
        
     }
@@ -84,7 +111,9 @@ export function useLista(){
       setTelefono(telefono);
       setTipo(tipo);
       setBandera(false);
+      crear();
       showeditartoast();
+      
   } 
 
   
@@ -99,6 +128,9 @@ const showActions = async (id:string,nombre:string,telefono:string,tipo:string) 
         {
           title: 'Eliminar',
         },
+        {
+          title: 'Leer',
+        }
       ],
     });
   switch (result.index) {
@@ -108,7 +140,9 @@ const showActions = async (id:string,nombre:string,telefono:string,tipo:string) 
       case 1:
           showeliminar(id)
           break;
-  
+      case 2:
+            leer('El nombre del contacto es '+nombre+', su telefono es '+telefono+', y esta registrado como un numero de '+tipo)
+            break;
       default:
           break;
   }
@@ -127,7 +161,7 @@ const showActions = async (id:string,nombre:string,telefono:string,tipo:string) 
   };
   const showeditartoast = async () => {
     await Toast.show({
-      text: 'sea editado el contacto',
+      text: 'se ha editado el contacto',
     });
   };
 
@@ -135,13 +169,11 @@ const showActions = async (id:string,nombre:string,telefono:string,tipo:string) 
     await Haptics.vibrate();
   };
 
-  Keyboard.addListener('keyboardDidHide', () => {
-    hapticsVibrate();
-  });
+  
 
-  Keyboard.addListener('keyboardWillShow', info => {
-    hapticsVibrate();
-  });
+  const leer = async (texto:string) => {
+    await ScreenReader.speak({ value: texto });
+  };
   return {
     listar, 
     crear,
