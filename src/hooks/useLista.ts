@@ -26,19 +26,19 @@ export function useLista(){
             let lista: contacto[] = []
             let con=0;
             const { value } = await Storage.get({ key: con+'' });
-            let valuejs = JSON.parse(value+"");
+            let valuejs = JSON.parse(value+'');
             while(valuejs!=null)
             {
-              console.log(''+con)
+              
               let obj={
-                  id:con+"",
-                  nombre:valuejs.nombre+"",
-                  telefono:valuejs.telefono+"",
-                  tipo:valuejs.tipo+""
+                  id:con+'',
+                  nombre:valuejs.nombre+'',
+                  telefono:valuejs.telefono+'',
+                  tipo:valuejs.tipo+''
               };
               con++;
               let { value } = await Storage.get({ key: con+'' });
-              valuejs = JSON.parse(value+"");
+              valuejs = JSON.parse(value+'');
               lista.push(obj);
             }
             
@@ -53,7 +53,7 @@ export function useLista(){
             if(bandera){
               let con = lista.length;
               await Storage.set({
-                key: con+"",
+                key: con+'',
                 value: JSON.stringify({
                   "nombre":nombre,
                   "telefono":telefono,

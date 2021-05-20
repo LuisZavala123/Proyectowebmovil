@@ -45,7 +45,7 @@ const Tab1: React.FC = () => {
         <IonPage>
         
             <IonHeader>
-                <IonToolbar color="warning">
+                <IonToolbar>
                     <IonTitle>Formulario</IonTitle>
                 </IonToolbar>
             </IonHeader>
