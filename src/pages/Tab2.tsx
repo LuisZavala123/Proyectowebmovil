@@ -12,11 +12,13 @@ import {
   IonButton,
   IonIcon,
   useIonViewWillEnter,
+  IonToast,
 } from '@ionic/react';
 
 import {trashBinOutline, pencil } from 'ionicons/icons';
 import './Tab2.css';
 import { useLista} from '../hooks/useLista';
+import React from 'react';
 
 const Tab2: React.FC = () => {
 
@@ -25,7 +27,11 @@ const Tab2: React.FC = () => {
   const {eliminar,
      editar,
      listar,
-     listaEquipo} = useLista();
+     showToast2,
+     setShowToast2,
+     showToast3,
+     setShowToast3,
+     lista} = useLista();
 
      useIonViewWillEnter(() => {
       listar();
@@ -41,29 +47,44 @@ const Tab2: React.FC = () => {
       <IonContent fullscreen>
         
       <IonList> {
-                    listaEquipo.map(equipo => (
-                        <IonCard key={equipo.id} >
+                    lista.map(contacto => (
+                        <IonCard key={contacto.id} >
                             <IonCardHeader>
                                 <IonCardTitle>Nombre:{
-                                    equipo.nombre
+                                    contacto.nombre
                                 }</IonCardTitle>
                             </IonCardHeader>
                             <IonCardContent>
-                                Titulos: {equipo.titulos} 
+                                Telefono: {contacto.telefono}
+                                Tipo: {contacto.tipo} 
                                 <IonButton color="danger" expand="block"
-                               onClick={() => eliminar(''+equipo.id)}>
+                               onClick={() => eliminar(''+contacto.id)}>
                              <IonIcon icon={trashBinOutline}></IonIcon>
                                Eliminar</IonButton>  
                         <IonButton color="tertiary" expand="block"
                          onClick={
-                    () => editar(''+equipo.id,''+equipo.nombre,''+equipo.titulos)}>
+                    () => editar(''+contacto.id,
+                    ''+contacto.nombre,
+                    ''+contacto.telefono,
+                    ''+contacto.tipo)}>
                              <IonIcon icon={pencil}></IonIcon>Editar</IonButton>   
                             </IonCardContent>
                              
                         </IonCard>
                     )) }
                  </IonList>
-
+                 <IonToast
+        isOpen={showToast2}
+        onDidDismiss={() => setShowToast2(false)}
+        message="Contacto eliminado"
+        duration={2000}
+      />
+       <IonToast
+        isOpen={showToast3}
+        onDidDismiss={() => setShowToast3(false)}
+        message="C0ntacto editado"
+        duration={2000}
+      />
       </IonContent>
     </IonPage>
   );

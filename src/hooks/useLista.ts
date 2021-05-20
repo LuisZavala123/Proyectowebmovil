@@ -1,51 +1,55 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import firebase from 'firebase/app';
 import 'firebase/firebase-firestore';
-import {equipo} from '../modelo/equipo'
+import {contacto} from '../modelo/contacto'
 
 
 
 export function useLista(){
-    const [listaEquipo, setListaEquipo] = useState < equipo[] > ([]); 
+    const [showToast1, setShowToast1] = useState(false);
+    const [showToast2, setShowToast2] = useState(false);
+    const [showToast3, setShowToast3] = useState(false);
+    const [lista, setLista] = useState < contacto[] > ([]); 
     const [id, setId] = useState('');
     const [nombre, setNombre] = useState('');
-    const [titulos, setTitulos] = useState('');
-    const [mensaje, setMensaje] = useState(false);
+    const [telefono, setTelefono] = useState('');
+    const [tipo, setTipo] = useState('');
     const [bandera, setBandera] = useState(true);
     const listar = async () => {
         try {
-            let lista: equipo[] = []
-            const res = await firebase.firestore().collection('equipo').get();
+            let lista: contacto[] = []
+            const res = await firebase.firestore().collection('contacto').get();
             res.forEach((doc) => {
                 let obj = {
                     id: doc.id,
                     nombre: doc.data().nombre,
-                    titulos: doc.data().titulos
+                    telefono: doc.data().telefono,
+                    tipo: doc.data().tipo
                 };
                 lista.push(obj)
     
             });
-            setListaEquipo(lista)
+            setLista(lista)
         } catch (error) {}
     }
 
     const crear = async () => {
         try {
             if(bandera){
-                await firebase.firestore().collection('equipo').add(
-                    {nombre, titulos});
+                await firebase.firestore().collection('contacto').add(
+                    {nombre, telefono,tipo});
                    
             }else{
-                await firebase.firestore().collection('equipo').doc(id).set(
-                    {nombre, titulos});
+                await firebase.firestore().collection('contacto').doc(id).set(
+                    {nombre, telefono,tipo});
                     setBandera(true);
             }
-             
+            setShowToast1(true)
         } catch (error) {}
         setId('');
         setNombre('');
-        setTitulos('');
-        setMensaje(true);
+        setTelefono('');
+        setTipo('');
         listar();  
     }
 
@@ -53,15 +57,18 @@ export function useLista(){
     const eliminar = async(id:string) =>{
         try {
             console.log(id)
-            await firebase.firestore().collection('equipo').doc(id).delete();
-            listar();  
+            await firebase.firestore().collection('contacto').doc(id).delete();
+            listar();
+            setShowToast2(true)  
         } catch (error) {}       
     }
 
-    const editar = (id:string,nombre:string,titulo:string) => {
+    const editar = (id:string,nombre:string,telefono:string,tipo:string) => {
       setId(id);
       setNombre(nombre);
-      setTitulos(titulo);
+      setTelefono(telefono);
+      setTipo(tipo);
+      setShowToast3(true)
       setBandera(false);
   } 
 
@@ -69,15 +76,21 @@ export function useLista(){
     listar, 
     crear,
     eliminar,
-     editar,
-     listaEquipo,
-     mensaje,
-     setMensaje,
-     titulos,
-     setTitulos,
-     nombre,
-     setNombre,
-     bandera
+    editar,
+    lista,
+    telefono,
+    setTelefono,
+    nombre,
+    setNombre,
+    tipo,
+    setTipo,
+    showToast1,
+    setShowToast1,
+    showToast2,
+    setShowToast2,
+    showToast3,
+    setShowToast3,
+    bandera
 
   };
 }

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {
     IonContent,
     IonHeader,
@@ -10,7 +10,13 @@ import {
     IonButton,
     IonItem,
     IonIcon,
-    IonToast
+    IonToast,
+    IonItemDivider,
+    IonLabel,
+    IonList,
+    IonListHeader,
+    IonRadio,
+    IonRadioGroup
 } from '@ionic/react';
 import { addOutline } from 'ionicons/icons';
 
@@ -24,25 +30,22 @@ import { useLista} from '../hooks/useLista';
 const Tab1: React.FC = () => {
 
     
-    const {listar, 
+    const { 
         crear,
-         mensaje,
-         setMensaje,
-         titulos,
-         setTitulos,
+         telefono,
+         setTelefono,
+         showToast1,
+         setShowToast1,
          nombre,
          setNombre,
+         tipo,
+         setTipo,
          bandera } = useLista();
 
     
     return (
         <IonPage>
-        <IonToast
-           isOpen={mensaje}
-           onDidDismiss={() => setMensaje(false)}
-           message="equipo guardado"
-           duration={500}
-          />
+        
             <IonHeader>
                 <IonToolbar color="warning">
                     <IonTitle>Formulario</IonTitle>
@@ -58,22 +61,46 @@ const Tab1: React.FC = () => {
                 <IonCard>
                     <IonItem>
                         <IonInput value={nombre}
-                            placeholder="Nombre Equipo"
+                            placeholder="NOmbre"
                             onIonChange={ e => setNombre(e.detail.value!) }
                         ></IonInput>
                     </IonItem>
                     <IonItem>
-                        <IonInput value={titulos}
-                            placeholder="Cantidad Titulos"
-                            onIonChange={ e => setTitulos(e.detail.value!) }
+                        <IonInput value={telefono}
+                            placeholder="Telefono"
+                            onIonChange={ e => setTelefono(e.detail.value!) }
                         ></IonInput>
                     </IonItem>
+                    <IonList>
+          <IonRadioGroup value={tipo} onIonChange={e => setTipo(e.detail.value)}>
+            <IonListHeader>
+              <IonLabel>Name</IonLabel>
+            </IonListHeader>
+
+            <IonItem>
+              <IonLabel>Movil</IonLabel>
+              <IonRadio slot="start" value="Movil" />
+            </IonItem>
+
+            <IonItem>
+              <IonLabel>Casa</IonLabel>
+              <IonRadio slot="start" value="Casa" />
+            </IonItem>
+          </IonRadioGroup>
+          <IonItemDivider>Seleccion</IonItemDivider>
+          <IonItem>{tipo ?? '(none selected'}</IonItem>
+        </IonList>
                 <IonButton color="success" expand="block"
                     onClick={() => crear() }>
                         <IonIcon icon={addOutline}>
-                        </IonIcon>{bandera?'Equipo':'Editar'}</IonButton>
+                        </IonIcon>{bandera?'Contacto':'Editar'}</IonButton>
                 </IonCard>
-                
+                <IonToast
+        isOpen={showToast1}
+        onDidDismiss={() => setShowToast1(false)}
+        message="contacto agregado"
+        duration={2000}
+      />
             </IonContent>
         </IonPage>
     );
