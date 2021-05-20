@@ -18,7 +18,7 @@ import {
 
 import { RefresherEventDetail } from '@ionic/core';
 
-import {trashBinOutline, pencil } from 'ionicons/icons';
+import { ellipsisVerticalOutline } from 'ionicons/icons';
 import './Tab2.css';
 import { useLista} from '../hooks/useLista';
 import React from 'react';
@@ -37,8 +37,7 @@ const Tab2: React.FC = () => {
 
   
 
-  const {showeliminar,
-     editar,
+  const {showActions,
      listar,
      lista} = useLista();
 
@@ -67,20 +66,17 @@ const Tab2: React.FC = () => {
                                     contacto.nombre
                                 }</IonCardTitle>
                             </IonCardHeader>
-                            <IonCardContent>
+                            <IonCardContent >
                                 Telefono: {contacto.telefono}
                                 Tipo: {contacto.tipo} 
-                                <IonButton color="danger" expand="block"
-                               onClick={() => showeliminar(''+contacto.id)}>
-                             <IonIcon icon={trashBinOutline}></IonIcon>
-                               Eliminar</IonButton>  
-                        <IonButton color="tertiary" expand="block"
-                         onClick={
-                    () => editar(''+contacto.id,
-                    ''+contacto.nombre,
-                    ''+contacto.telefono,
-                    ''+contacto.tipo)}>
-                             <IonIcon icon={pencil}></IonIcon>Editar</IonButton>   
+                                <IonButton color="success" expand="block"
+                               onClick={() => showActions(''+contacto.id,
+                               ''+contacto.nombre,
+                               ''+contacto.telefono,
+                               ''+contacto.tipo)}>
+                                 Accion
+                             <IonIcon icon={ellipsisVerticalOutline}></IonIcon>
+                             </IonButton>
                             </IonCardContent>
                              
                         </IonCard>

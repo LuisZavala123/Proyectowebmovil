@@ -5,6 +5,7 @@ import {contacto} from '../modelo/contacto'
 import { Dialog } from '@capacitor/dialog';
 import { Toast } from '@capacitor/toast';
 import { Haptics } from '@capacitor/haptics';
+import { ActionSheet} from '@capacitor/action-sheet';
 
 
 
@@ -85,6 +86,34 @@ export function useLista(){
       showeditartoast();
   } 
 
+  
+const showActions = async (id:string,nombre:string,telefono:string,tipo:string) => {
+    const result = await ActionSheet.showActions({
+      title: 'Opciones',
+      message: 'Selectiona una opcion',
+      options: [
+        {
+          title: 'Modificar',
+        },
+        {
+          title: 'Eliminar',
+        },
+      ],
+    });
+  switch (result.index) {
+      case 0:
+          editar(id,nombre,telefono,tipo);
+          break;
+      case 1:
+          showeliminar(id)
+          break;
+  
+      default:
+          break;
+  }
+    
+  };
+
   const showEliminartoast = async () => {
     await Toast.show({
       text: 'Se ha eliminado el contacto',
@@ -108,8 +137,7 @@ export function useLista(){
   return {
     listar, 
     crear,
-    showeliminar,
-    editar,
+    showActions,
     lista,
     telefono,
     setTelefono,
