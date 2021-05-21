@@ -41,17 +41,23 @@ export function useLista(){
               valuejs = JSON.parse(value+'');
               lista.push(obj);
             }
-            
             setLista(lista)
+            
         } catch (error) {
           console.log(error);
+          
         }
     }
 
+    
+
     const crear = async () => {
+      let con = lista.length;
         try {
             if(bandera){
-              let con = lista.length;
+              
+              await Toast.show({
+                text: con+'',});
               await Storage.set({
                 key: con+'',
                 value: JSON.stringify({
@@ -170,10 +176,18 @@ const showActions = async (id:string,nombre:string,telefono:string,tipo:string) 
   };
 
   
+  
 
   const leer = async (texto:string) => {
+    if(await ScreenReader.isEnabled()){
     await ScreenReader.speak({ value: texto });
-  };
+    }else{
+      await Toast.show({
+        text: 'El Lector no esta disponible',
+      });
+    }
+  }
+
   return {
     listar, 
     crear,

@@ -15,7 +15,8 @@ import {
     IonList,
     IonListHeader,
     IonRadio,
-    IonRadioGroup
+    IonRadioGroup,
+    useIonViewWillEnter
 } from '@ionic/react';
 import { addOutline } from 'ionicons/icons';
 
@@ -38,8 +39,12 @@ const Tab1: React.FC = () => {
          setNombre,
          tipo,
          setTipo,
+         listar,
          bandera } = useLista();
 
+         useIonViewWillEnter(() => {
+            listar();
+        })
     
     return (
         <IonPage>
