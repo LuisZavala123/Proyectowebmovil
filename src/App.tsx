@@ -32,12 +32,9 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 
-import {firebaseConfig} from '../src/database/config'
-import firebase from 'firebase/app'; 
 
-if (!firebase.apps.length) {
-  firebase.initializeApp(firebaseConfig);
-}
+
+
 
 const App: React.FC = () => (
   
