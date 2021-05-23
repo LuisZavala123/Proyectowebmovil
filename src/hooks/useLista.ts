@@ -1,5 +1,4 @@
 import {useState} from 'react';
-import 'firebase/firebase-firestore';
 import {contacto} from '../modelo/contacto'
 import { Dialog } from '@capacitor/dialog';
 import { Toast } from '@capacitor/toast';
