@@ -22,7 +22,6 @@ import { addOutline } from 'ionicons/icons';
 
 
 import './Tab1.css';
-import 'firebase/firebase-firestore';
 import { useLista} from '../hooks/useLista';
 
 
