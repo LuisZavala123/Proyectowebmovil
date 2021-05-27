@@ -110,16 +110,6 @@ export function useLista(){
        
     }
 
-    const editar = (id:string,nombre:string,telefono:string,tipo:string) => {
-      setId(id);
-      setNombre(nombre);
-      setTelefono(telefono);
-      setTipo(tipo);
-      setBandera(false);
-      crear();
-      showeditartoast();
-      
-  } 
 
   
 const showActions = async (id:string,nombre:string,telefono:string,tipo:string) => {
@@ -127,9 +117,6 @@ const showActions = async (id:string,nombre:string,telefono:string,tipo:string) 
       title: 'Opciones',
       message: 'Selectiona una opcion',
       options: [
-        {
-          title: 'Modificar',
-        },
         {
           title: 'Eliminar',
         },
@@ -139,13 +126,11 @@ const showActions = async (id:string,nombre:string,telefono:string,tipo:string) 
       ],
     });
   switch (result.index) {
+      
       case 0:
-          editar(id,nombre,telefono,tipo);
-          break;
-      case 1:
           showeliminar(id)
           break;
-      case 2:
+      case 1:
             leer('El nombre del contacto es '+nombre+', su telefono es '+telefono+', y esta registrado como un numero de '+tipo)
             break;
       default:
@@ -164,11 +149,7 @@ const showActions = async (id:string,nombre:string,telefono:string,tipo:string) 
       text: 'se ha agregado el contacto',
     });
   };
-  const showeditartoast = async () => {
-    await Toast.show({
-      text: 'se ha editado el contacto',
-    });
-  };
+  
 
   const hapticsVibrate = async () => {
     await Haptics.vibrate();
@@ -178,14 +159,12 @@ const showActions = async (id:string,nombre:string,telefono:string,tipo:string) 
   
 
   const leer = async (texto:string) => {
-    if(await ScreenReader.isEnabled()){
+    
     await ScreenReader.speak({ value: texto });
-    }else{
-      await Toast.show({
-        text: 'El Lector no esta disponible',
-      });
+    
+      
     }
-  }
+  
 
   return {
     listar, 
