@@ -38,8 +38,7 @@ const Tab1: React.FC = () => {
          setNombre,
          tipo,
          setTipo,
-         listar,
-         bandera } = useLista();
+         listar} = useLista();
 
          useIonViewWillEnter(() => {
             listar();
@@ -94,8 +93,8 @@ const Tab1: React.FC = () => {
         </IonList>
                 <IonButton id="btncrear" color="success" expand="block"
                     onClick={() => crear() }>
-                        <IonIcon icon={addOutline}>
-                        </IonIcon>{bandera?'Contacto':'Editar'}</IonButton>
+                        Agregar<IonIcon icon={addOutline}>
+                        </IonIcon></IonButton>
                 </IonCard>
                 
             </IonContent>

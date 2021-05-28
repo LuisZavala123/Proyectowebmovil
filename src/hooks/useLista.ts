@@ -15,7 +15,6 @@ export function useLista(){
     const [nombre, setNombre] = useState('');
     const [telefono, setTelefono] = useState('');
     const [tipo, setTipo] = useState('');
-    const [bandera, setBandera] = useState(true);
     
 
     
@@ -24,24 +23,31 @@ export function useLista(){
         try {
             let lista: contacto[] = []
             let con=0;
-            const { value } = await Storage.get({ key: con+'' });
-            let valuejs = JSON.parse(value+'');
-            while(valuejs!=null)
-            {
+            
+            let valuejs = JSON.parse(await (await Storage.get({ key: con+'' })).value+'');
+            
+
+
+             while(valuejs!=null)
+              {
               
-              let obj={
-                  id:con+'',
-                  nombre:valuejs.nombre+'',
-                  telefono:valuejs.telefono+'',
-                  tipo:valuejs.tipo+''
-              };
-              con++;
-              let { value } = await Storage.get({ key: con+'' });
-              valuejs = JSON.parse(value+'');
-              lista.push(obj);
+                let obj={
+                    id:con+'',
+                    nombre:valuejs.nombre+'',
+                    telefono:valuejs.telefono+'',
+                    tipo:valuejs.tipo+''
+                };
+                lista.push(obj);
+                con++;
+             let { value } = await Storage.get({ key: con+'' });
+             valuejs = JSON.parse(value+'');
+             
             }
             setLista(lista)
             
+            
+
+
         } catch (error) {
           console.log(error);
           
@@ -53,7 +59,7 @@ export function useLista(){
     const crear = async () => {
       let con = lista.length;
         try {
-            if(bandera){
+           
               
               await Toast.show({
                 text: con+'',});
@@ -65,19 +71,9 @@ export function useLista(){
                   "tipo":tipo
                 }),
               });
+              
               showagregartoast();
-            }else{
-              eliminar(id);
-              await Storage.set({
-                key: id,
-                value: JSON.stringify({
-                  "nombre":nombre,
-                  "telefono":telefono,
-                  "tipo":tipo
-                }),
-              });
-                    setBandera(true);
-            }
+            
             
         } catch (error) {}
         setId('');
@@ -176,8 +172,7 @@ const showActions = async (id:string,nombre:string,telefono:string,tipo:string) 
     nombre,
     setNombre,
     tipo,
-    setTipo,
-    bandera
+    setTipo
 
   };
 }
